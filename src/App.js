@@ -13,7 +13,7 @@ const App = () => {
         const data = await locationData("카페");
         // const kakaoData = Kakao();
         setPlaceData(data);
-        console.log(data);
+        // console.log(data);
         // console.log(kakaoData);
       } catch (error) {
         console.log(error);
