@@ -1,6 +1,6 @@
 - [] npm i react-router-dom
 - [x] npm i node-fetch
-- [] npm i styled-components
+- [x] npm i styled-components
 - [] npm i styled-reset
 - [] npm i react-spinners
 - [] font-awesome
