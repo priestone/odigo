@@ -10,10 +10,10 @@ const App = () => {
   useEffect(() => {
     (async () => {
       try {
-        const data = await locationData("카페");
+        const data = await locationData("부산");
         // const kakaoData = Kakao();
         setPlaceData(data);
-        // console.log(data);
+        console.log(data.response.body.items);
         // console.log(kakaoData);
       } catch (error) {
         console.log(error);

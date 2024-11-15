@@ -19,7 +19,7 @@ const Kakao = () => {
   useEffect(() => {
     if (window.kakao && window.kakao.maps) {
       const options = {
-        center: new window.kakao.maps.LatLng(33.450701, 126.570667),
+        center: new window.kakao.maps.LatLng(35.11581, 129.0412),
         level: 3,
       };
       const map = new window.kakao.maps.Map(mapContainer.current, options);
@@ -34,7 +34,7 @@ const Kakao = () => {
       <Form>
         <input type="text" placeholder="작품명을 입력해주세요"></input>
       </Form>
-      <div ref={mapContainer} style={{ width: "500px", height: "400px" }}></div>
+      <div ref={mapContainer} style={{ width: "100%", height: "100vh" }}></div>
     </>
   );
 };
