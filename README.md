@@ -1,8 +1,8 @@
-- [] npm i react-router-dom
+- [x] npm i react-router-dom
 - [x] npm i node-fetch
 - [x] npm i styled-components
-- [] npm i styled-reset
-- [] npm i react-spinners
+- [x] npm i styled-reset
+- [x] npm i react-spinners
 - [] font-awesome
 - [x] npm i react-hook-form
 - [] helmet-async
