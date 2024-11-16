@@ -10,7 +10,7 @@ ${reset}
 }
 
 body{
-
+    font-family: "Noto Sans KR", serif;
 }
 
 img{
