@@ -2,6 +2,7 @@ import styled from "styled-components";
 import KakaoMap from "../../components/KakaoMap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import View from "../View/View";
 
 const Container = styled.div`
   width: 100%;
@@ -45,7 +46,7 @@ const SearchWrap = styled.form`
 const SearchButton = styled.button`
   all: unset;
   position: absolute;
-  right: 15px;
+  right: 3%;
   top: 50%;
   transform: translateY(-50%);
 `;
@@ -66,6 +67,7 @@ const Home = () => {
           </SearchButton>
         </SearchWrap>
       </Container>
+      <View></View>
     </>
   );
 };

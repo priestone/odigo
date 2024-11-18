@@ -20,32 +20,24 @@ const parseLatLng = (coordinateString) => {
 
 const KakaoMap = () => {
   const [placeData, setPlaceData] = useState([]);
-  const [center, setCenter] = useState({ lat: 37.579236, lng: 126.96867 });
+  const [center, setCenter] = useState({ lat: 35.579236, lng: 126.96867 });
   const [isCenterSet, setIsCenterSet] = useState(false); // 사용자 위치로 중심 설정 여부
   const location = UseGeolocation();
 
   useEffect(() => {
     if (
       location.loaded &&
-      location.coordinates.lat &&
-      location.coordinates.lng &&
-      !isCenterSet
+      location.coordinates.lat !== 0 &&
+      location.coordinates.lng !== 0
     ) {
-      setCenter((prevCenter) => {
-        if (
-          prevCenter.lat !== location.coordinates.lat ||
-          prevCenter.lng !== location.coordinates.lng
-        ) {
-          setIsCenterSet(true); // 중심 좌표 설정 완료
-          return {
-            lat: location.coordinates.lat,
-            lng: location.coordinates.lng,
-          };
-        }
-        return prevCenter;
-      });
+      console.log("Setting Center:", location.coordinates);
+      setCenter(location.coordinates);
     }
-  }, [location.loaded, location.coordinates, isCenterSet]);
+  }, [location.loaded, location.coordinates]);
+
+  useEffect(() => {
+    console.log("Updated Center:", center);
+  }, [center]);
 
   useEffect(() => {
     if (!location.loaded || location.error) return;
@@ -95,6 +87,7 @@ const KakaoMap = () => {
         level={6}
       >
         {placeData.map((item, index) => {
+          // console.log(center);
           const { lat, lng } = parseLatLng(item.coordinates);
           // console.log("Marker Position:", { lat, lng });
           return (
