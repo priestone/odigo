@@ -30,7 +30,7 @@ const KakaoMap = () => {
       location.coordinates.lat !== 0 &&
       location.coordinates.lng !== 0
     ) {
-      console.log("Setting Center:", location.coordinates);
+      // console.log("Setting Center:", location.coordinates);
       setCenter(location.coordinates);
     }
   }, [location.loaded, location.coordinates]);
