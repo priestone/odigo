@@ -24,35 +24,30 @@ const Logo = styled.div`
   }
 `;
 
-const SearchWrap = styled.div`
-  width: 100%;
+const SearchWrap = styled.form`
   display: flex;
   justify-content: space-between;
-  /* margin: 0 auto; */
-`;
-
-const SearchBar = styled.div`
-  width: 80%;
-  height: 50px;
-  background-color: #fff;
-  border-radius: 4px;
-  box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.3);
-`;
-
-const SearchBtn = styled.button`
-  all: unset;
-  width: 50px;
-  height: 50px;
-  background-color: #fff;
-  border-radius: 4px;
-  box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.3);
-  flex-direction: column;
-  display: flex;
-  justify-content: space-evenly;
   align-items: center;
-  h3 {
-    font-size: 12px;
+  position: relative;
+
+  input {
+    all: unset;
+    width: 95%;
+    height: 50px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.3);
+    margin: 0 auto;
+    padding: 0 15px;
   }
+`;
+
+const SearchButton = styled.button`
+  all: unset;
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
 `;
 
 const Home = () => {
@@ -65,11 +60,10 @@ const Home = () => {
           <h1>ㅇㄷㄱ</h1>
         </Logo>
         <SearchWrap>
-          <SearchBar></SearchBar>
-          <SearchBtn>
+          <input placeholder="장소입력" type="text" />
+          <SearchButton>
             <FontAwesomeIcon icon={faMagnifyingGlass} />
-            {/* <h3>검색</h3> */}
-          </SearchBtn>
+          </SearchButton>
         </SearchWrap>
       </Container>
     </>
