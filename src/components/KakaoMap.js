@@ -1,51 +1,22 @@
 import { Map, MapMarker } from "react-kakao-maps-sdk";
-import styled from "styled-components";
-import UseGeolocation from "./UseGeolocation";
-import { locationData } from "../api";
+import useGeolocation from "./useGeolocation";
 import { useEffect, useState } from "react";
+import { locationData } from "../api";
 
-const defaultKeywords = ["카페", "식당", "부산"]; // 기본 키워드
-
-const parseLatLng = (coordinateString) => {
-  if (!coordinateString || !coordinateString.includes(",")) {
-    console.error("Invalid coordinate string:", coordinateString);
-    return { lat: 0, lng: 0 }; // 기본값 반환
-  }
-
-  const [latStr, lngStr] = coordinateString.split(", ");
-  const lat = parseFloat(latStr.replace("N", "")) || 0;
-  const lng = parseFloat(lngStr.replace("E", "")) || 0;
-  return { lat, lng };
-};
+const DefaultKeyword = ["부산", "서울"];
 
 const KakaoMap = () => {
+  const [mapcenter, setMapcenter] = useState({ lat: 37.5665, lng: 126.978 });
   const [placeData, setPlaceData] = useState([]);
-  const [center, setCenter] = useState({ lat: 35.579236, lng: 126.96867 });
-  const [isCenterSet, setIsCenterSet] = useState(false); // 사용자 위치로 중심 설정 여부
-  const location = UseGeolocation();
+  // const Data = locationData("부산");
+  const userCenter = useGeolocation();
+  // console.log(userCenter.coordinates);
 
   useEffect(() => {
-    if (
-      location.loaded &&
-      location.coordinates.lat !== 0 &&
-      location.coordinates.lng !== 0
-    ) {
-      // console.log("Setting Center:", location.coordinates);
-      setCenter(location.coordinates);
-    }
-  }, [location.loaded, location.coordinates]);
-
-  useEffect(() => {
-    console.log("Updated Center:", center);
-  }, [center]);
-
-  useEffect(() => {
-    if (!location.loaded || location.error) return;
-
     (async () => {
       try {
         const responses = await Promise.all(
-          defaultKeywords.map((keyword) => locationData(keyword))
+          DefaultKeyword.map((keyword) => locationData(keyword))
         );
 
         const allItems = responses.flatMap((res) => {
@@ -53,56 +24,42 @@ const KakaoMap = () => {
           return res.response.body.items.item;
         });
 
-        const uniqueItems = Array.from(
-          new Set(
-            allItems.map((item) => `${item.coordinates}-${item.placeName}`)
-          )
-        ).map((uniqueKey) =>
-          allItems.find(
-            (item) => `${item.coordinates}-${item.placeName}` === uniqueKey
-          )
-        );
-
-        setPlaceData(uniqueItems);
-        // console.log("Place Data:", uniqueItems);
+        setMapcenter(userCenter.coordinates);
+        // console.log(allItems);
+        setPlaceData(allItems);
       } catch (error) {
-        console.error(error);
+        console.log(error);
       }
     })();
-  }, [location.loaded, location.error]);
+  }, [userCenter]);
+  console.log(placeData);
 
-  if (!location.loaded) return <p>Loading...</p>;
-  if (location.error) return <p>Error: {location.error.message}</p>;
+  // 이제 좌표값 이쁘게 바꾸기!!
 
   return (
-    <>
-      <Map
-        center={center}
-        style={{
-          width: `100%`,
-          height: `100vh`,
-          position: `fixed`,
-          zIndex: `-1`,
-        }}
-        level={6}
-      >
-        {placeData.map((item, index) => {
-          // console.log(center);
-          const { lat, lng } = parseLatLng(item.coordinates);
-          // console.log("Marker Position:", { lat, lng });
-          return (
-            <MapMarker
-              key={`${item.placeName}-${lat}-${lng}`}
-              position={{ lat, lng }}
-            >
-              <div style={{ padding: "5px", color: "#000" }}>
-                {item.placeName || "알 수 없는 장소"}
-              </div>
-            </MapMarker>
-          );
-        })}
-      </Map>
-    </>
+    <Map
+      center={mapcenter}
+      style={{
+        width: "100%",
+        height: "100vh",
+      }}
+      level={3}
+    >
+      {placeData.map((position, index) => (
+        <MapMarker
+          key={index}
+          position={position.coordinates} // 마커를 표시할 위치
+          image={{
+            src: "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png", // 마커이미지의 주소입니다
+            size: {
+              width: 24,
+              height: 35,
+            }, // 마커이미지의 크기입니다
+          }}
+          title={position.title}
+        />
+      ))}
+    </Map>
   );
 };
 
