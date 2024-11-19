@@ -1,10 +1,11 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const Container = styled.div`
   width: 100%;
   height: 100vh;
   padding: 73px 18px;
-  flex-direction: column;
+  /* flex-direction: column; */
   display: flex;
   justify-content: start;
   align-items: center;
@@ -29,7 +30,13 @@ const Logo = styled.div`
   }
 `;
 
-const ThemaWrap = styled.div``;
+const ThemaWrap = styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+`;
 
 const ConWrap = styled.div`
   min-width: 410px;
@@ -40,7 +47,8 @@ const ConWrap = styled.div`
   margin-bottom: 10px;
 `;
 const Con = styled.div`
-  width: 200px;
+  min-width: 100px;
+  width: 100%;
   height: 200px;
   background-color: lightskyblue;
   border-radius: 4px;
@@ -54,7 +62,9 @@ const Thema = () => {
   return (
     <Container>
       <Logo>
-        <h1>ㅇㄷㄱ</h1>
+        <Link to={"/"}>
+          <h1>ㅇㄷㄱ</h1>
+        </Link>
       </Logo>
 
       <ThemaWrap>

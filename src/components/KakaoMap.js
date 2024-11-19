@@ -15,6 +15,8 @@ const KakaoMap = () => {
   useEffect(() => {
     (async () => {
       try {
+        setMapcenter(userCenter.coordinates);
+
         const responses = await Promise.all(
           DefaultKeyword.map((keyword) => locationData(keyword))
         );
@@ -24,7 +26,6 @@ const KakaoMap = () => {
           return res.response.body.items.item;
         });
 
-        setMapcenter(userCenter.coordinates);
         // console.log(allItems);
         setPlaceData(allItems);
       } catch (error) {
@@ -32,7 +33,6 @@ const KakaoMap = () => {
       }
     })();
   }, [userCenter]);
-  console.log(placeData);
 
   // 이제 좌표값 이쁘게 바꾸기!!
 
@@ -42,10 +42,12 @@ const KakaoMap = () => {
       style={{
         width: "100%",
         height: "100vh",
+        position: "fixed",
+        zIndex: "-1",
       }}
       level={3}
     >
-      {placeData.map((position, index) => (
+      {/* {placeData.map((position, index) => (
         <MapMarker
           key={index}
           position={position.coordinates} // 마커를 표시할 위치
@@ -58,7 +60,7 @@ const KakaoMap = () => {
           }}
           title={position.title}
         />
-      ))}
+      ))} */}
     </Map>
   );
 };

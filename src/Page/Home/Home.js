@@ -7,6 +7,15 @@ import View from "../View/View";
 const Container = styled.div`
   width: 100%;
   padding: 13px 18px;
+
+  @media screen and (min-width: 768px) {
+    width: 400px;
+    height: 100vh;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+  }
 `;
 
 const Logo = styled.div`
@@ -38,7 +47,7 @@ const SearchWrap = styled.form`
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.3);
-    margin: 0 auto;
+    /* margin: 0 auto; */
     padding: 0 15px;
   }
 `;
@@ -66,8 +75,8 @@ const Home = () => {
             <FontAwesomeIcon icon={faMagnifyingGlass} />
           </SearchButton>
         </SearchWrap>
+        <View></View>
       </Container>
-      <View></View>
     </>
   );
 };
