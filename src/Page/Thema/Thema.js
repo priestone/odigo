@@ -68,7 +68,7 @@ const Thema = () => {
         </ConWrap>
         <ConWrap>
           <Con>전시관</Con>
-          <Con>관광지</Con>
+          <Con>관광지1</Con>
         </ConWrap>
       </ThemaWrap>
     </Container>
