@@ -3,10 +3,15 @@ import KakaoMap from "../../components/KakaoMap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import View from "../View/View";
+import { useState } from "react";
 
 const Container = styled.div`
   width: 100%;
   padding: 13px 18px;
+  position: relative;
+  top: 0;
+  left: 0;
+  z-index: 9;
 
   @media screen and (min-width: 768px) {
     width: 400px;
@@ -61,9 +66,16 @@ const SearchButton = styled.button`
 `;
 
 const Home = () => {
+  const [selectedPlace, setSelectedPlace] = useState(null);
+
+  const handlePlaceClick = (place) => {
+    console.log("Place clicked:", place); // 로그로 데이터 확인
+    setSelectedPlace(place);
+  };
+
   return (
     <>
-      <KakaoMap></KakaoMap>
+      <KakaoMap onPlaceClick={handlePlaceClick}></KakaoMap>
 
       <Container>
         <Logo>
@@ -75,8 +87,8 @@ const Home = () => {
             <FontAwesomeIcon icon={faMagnifyingGlass} />
           </SearchButton>
         </SearchWrap>
-        <View></View>
       </Container>
+      {selectedPlace && <View place={selectedPlace} />}
     </>
   );
 };

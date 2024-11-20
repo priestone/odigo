@@ -1,11 +1,24 @@
-import { Map, MapMarker } from "react-kakao-maps-sdk";
+import { Map, MapMarker, useMap } from "react-kakao-maps-sdk";
 import useGeolocation from "./useGeolocation";
 import { useEffect, useState } from "react";
 import { locationData } from "../api";
 
 const DefaultKeyword = ["부산", "서울"];
 
-const KakaoMap = () => {
+const convertCoordinates = (coordinates) => {
+  const [latRaw, lngRaw] = coordinates.split(", ");
+
+  const latValue = parseFloat(latRaw.substring(1)); // N/S 제거
+  const lngValue = parseFloat(lngRaw.substring(1)); // E/W 제거
+
+  // 방향에 따라 부호 결정
+  const lat = latRaw.startsWith("N") ? latValue : -latValue;
+  const lng = lngRaw.startsWith("E") ? lngValue : -lngValue;
+
+  return { lat, lng };
+};
+
+const KakaoMap = ({ onPlaceClick }) => {
   const [mapcenter, setMapcenter] = useState({ lat: 37.5665, lng: 126.978 });
   const [placeData, setPlaceData] = useState([]);
   // const Data = locationData("부산");
@@ -26,8 +39,8 @@ const KakaoMap = () => {
           return res.response.body.items.item;
         });
 
-        // console.log(allItems);
         setPlaceData(allItems);
+        // console.log(placeData[0].coordinates);
       } catch (error) {
         console.log(error);
       }
@@ -35,32 +48,52 @@ const KakaoMap = () => {
   }, [userCenter]);
 
   // 이제 좌표값 이쁘게 바꾸기!!
+  const updatedPlaceData = placeData.map((position) => ({
+    ...position,
+    coordinates: convertCoordinates(position.coordinates),
+  }));
+
+  // console.log(updatedPlaceData);
+
+  const EventMarkerContainer = ({ position }) => {
+    const map = useMap();
+    const [isVisible, setIsVisible] = useState(false);
+
+    return (
+      <MapMarker
+        position={position} // 마커를 표시할 위치
+        // @ts-ignore
+        onClick={(marker) => map.panTo(marker.getPosition())}
+      ></MapMarker>
+    );
+  };
+
+  const handleMarkerClick = (place) => {
+    onPlaceClick(place); // 클릭된 정보를 부모에게 전달
+  };
 
   return (
-    <Map
+    <Map // 지도를 표시할 Container
       center={mapcenter}
       style={{
+        // 지도의 크기
         width: "100%",
         height: "100vh",
         position: "fixed",
-        zIndex: "-1",
+        top: "0",
+        left: "0",
+        zIndex: "1",
       }}
-      level={3}
+      level={3} // 지도의 확대 레벨
     >
-      {/* {placeData.map((position, index) => (
-        <MapMarker
-          key={index}
-          position={position.coordinates} // 마커를 표시할 위치
-          image={{
-            src: "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png", // 마커이미지의 주소입니다
-            size: {
-              width: 24,
-              height: 35,
-            }, // 마커이미지의 크기입니다
-          }}
-          title={position.title}
+      {updatedPlaceData.map((value, index) => (
+        <EventMarkerContainer
+          key={`EventMarkerContainer-${value.coordinates.lat}-${value.coordinates.lng}-${index}`}
+          position={value.coordinates}
+          place={value}
+          onClick={() => handleMarkerClick(value)}
         />
-      ))} */}
+      ))}
     </Map>
   );
 };

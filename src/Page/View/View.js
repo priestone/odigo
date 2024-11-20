@@ -7,6 +7,7 @@ const Container = styled.div`
   position: absolute;
   bottom: 0;
   left: 0;
+  z-index: 10;
   width: 100%;
   height: 330px;
   background-color: #fff;
@@ -28,11 +29,13 @@ const Container = styled.div`
 
   @media screen and (min-width: 768px) {
     width: 374px;
-    position: unset;
+    /* position: unset; */
     /* height: 80vh; */
     box-shadow: none;
     border-radius: 0;
     padding: 3% 0%;
+    top: 150px;
+    left: 18px;
 
     h4 {
       display: none;
@@ -110,12 +113,14 @@ const ICON = styled.div`
   }
 
   @media screen and (min-width: 768px) {
-    bottom: 30px;
+    bottom: -430px;
     left: 430px;
   }
 `;
 
-const View = () => {
+const View = ({ place }) => {
+  if (!place) return null;
+
   return (
     <Container>
       <Link to={"/thema"}>
@@ -123,23 +128,24 @@ const View = () => {
           <FontAwesomeIcon icon={faLayerGroup} />
         </ICON>
       </Link>
+      {console.log(place)}
       <h4>"00"에 대한 검색 결과</h4>
       <Con>
         <Link to={"/detail"}>
           <Conimg></Conimg>
         </Link>
         <h1>
-          00식당 <span>식당</span>
+          {place.placeName} <span>{place.subDescription}</span>
         </h1>
-        <h2>작품명 : "더 킹 : 영원의 군주"</h2>
+        <h2>{place.mediaTitle}</h2>
       </Con>
-      <Con2>
+      {/* <Con2>
         <Conimg></Conimg>
         <h1>
           00카페 <span>카페</span>
         </h1>
         <h2>작품명 : "도깨비"</h2>
-      </Con2>
+      </Con2> */}
     </Container>
   );
 };
