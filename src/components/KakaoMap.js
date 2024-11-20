@@ -57,7 +57,6 @@ const KakaoMap = ({ onPlaceClick }) => {
 
   const EventMarkerContainer = ({ position }) => {
     const map = useMap();
-    const [isVisible, setIsVisible] = useState(false);
 
     return (
       <MapMarker
@@ -68,7 +67,24 @@ const KakaoMap = ({ onPlaceClick }) => {
     );
   };
 
+  // const EventMarkerContainer = ({ position, place }) => {
+  //   const map = useMap();
+
+  //   return (
+  //     <MapMarker
+  //       position={position}
+  //       onClick={() => {
+  //         console.log("Marker position clicked:", position); // 로그 추가
+  //         console.log("Place data:", place); // place 데이터 확인
+  //         map.panTo(position);
+  //         handleMarkerClick(place); // 클릭 이벤트 실행
+  //       }}
+  //     />
+  //   );
+  // };
+
   const handleMarkerClick = (place) => {
+    console.log("Marker clicked:", place);
     onPlaceClick(place); // 클릭된 정보를 부모에게 전달
   };
 
