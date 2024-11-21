@@ -39,24 +39,34 @@ const ThemaWrap = styled.div`
 `;
 
 const ConWrap = styled.div`
-  min-width: 410px;
+  min-width: 300px;
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
+  @media screen and (min-width: 768px) {
+    min-width: 500px;
+    width: 50%;
+  }
 `;
+
 const Con = styled.div`
   min-width: 100px;
-  width: 100%;
+  width: 49%;
   height: 200px;
   /* background-color: lightskyblue; */
-  border-radius: 4px;
+  border-radius: 10px;
   text-align: center;
   line-height: 200px;
   font-size: 24px;
   font-weight: 900;
   box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.7);
+
+  @media screen and (min-width: 768px) {
+    height: 300px;
+    line-height: 300px;
+  }
 `;
 
 const Thema = () => {
@@ -70,7 +80,9 @@ const Thema = () => {
 
       <ThemaWrap>
         <ConWrap>
-          <Con>카페</Con>
+          <Con>
+            <Link to={`/home?keyword=카페`}>카페</Link>
+          </Con>
           <Con>식당</Con>
         </ConWrap>
         <ConWrap>

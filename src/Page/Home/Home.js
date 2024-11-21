@@ -6,8 +6,8 @@ import {
   faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
 import View from "../View/View";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 const Container = styled.div`
   width: 100%;
@@ -95,6 +95,7 @@ const ICON = styled.div`
 `;
 
 const Home = () => {
+  // const location = useLocation();
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [searchKeyword, setSearchKeyword] = useState(""); // 검색어 상태
   const [keyword, setKeyword] = useState(["카페", "식당"]); // 초기 디폴트 키워드 설정
@@ -110,6 +111,16 @@ const Home = () => {
       setKeyword([searchKeyword]); // 검색어로 키워드 업데이트
     }
   };
+
+  // useEffect(() => {
+  //   // URL에서 `keyword` 파라미터 읽기
+  //   const searchParams = new URLSearchParams(location.search);
+  //   const urlKeyword = searchParams.get("keyword");
+
+  //   if (urlKeyword) {
+  //     setKeyword([urlKeyword]); // 키워드 업데이트
+  //   }
+  // }, [location]);
 
   return (
     <>
