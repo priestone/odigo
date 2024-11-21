@@ -7,7 +7,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import View from "../View/View";
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useText } from "../TextContext";
+import Loading from "../../components/Loading";
 
 const Container = styled.div`
   width: 100%;
@@ -67,6 +69,7 @@ const SearchButton = styled.button`
   right: 3%;
   top: 50%;
   transform: translateY(-50%);
+  cursor: pointer;
 `;
 
 const ICON = styled.div`
@@ -95,37 +98,44 @@ const ICON = styled.div`
 `;
 
 const Home = () => {
-  // const location = useLocation();
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [searchKeyword, setSearchKeyword] = useState(""); // 검색어 상태
   const [keyword, setKeyword] = useState(["카페", "식당"]); // 초기 디폴트 키워드 설정
+  const { inputText, setInputText } = useText(); // Context에서 상태와 업데이트 함수 가져오기
+  const [localInput, setLocalInput] = useState(""); // 로컬 입력 상태 관리
+  // const [isLoading, setIsLoading] = useState(true);
 
   const handlePlaceClick = (place) => {
-    // console.log("Place clicked:", place); // 로그로 데이터 확인
     setSelectedPlace(place);
   };
 
-  const handleSearch = (e) => {
-    e.preventDefault(); // 폼 제출 방지
-    if (searchKeyword.trim() !== "") {
-      setKeyword([searchKeyword]); // 검색어로 키워드 업데이트
-    }
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setLocalInput(value); // 입력 창 상태 업데이트
   };
 
-  // useEffect(() => {
-  //   // URL에서 `keyword` 파라미터 읽기
-  //   const searchParams = new URLSearchParams(location.search);
-  //   const urlKeyword = searchParams.get("keyword");
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    setKeyword([localInput]); // 입력된 키워드로 마커 갱신
+  };
 
-  //   if (urlKeyword) {
-  //     setKeyword([urlKeyword]); // 키워드 업데이트
-  //   }
-  // }, [location]);
+  useEffect(() => {
+    if (inputText) {
+      setLocalInput(inputText); // 입력 창에 반영
+      setKeyword([inputText]); // 마커 갱신
+      setInputText(""); // Context 값 초기화
+    }
 
+    // const timer = setTimeout(() => {
+    //   setIsLoading(false); // 로딩 해제
+    // }, 2000); // 2초 동안 로딩 표시
+
+    // return () => clearTimeout(timer); // 타이머 클린업
+  }, [inputText, setInputText]);
+
+  // setIsLoading(false);
   return (
     <>
-      <KakaoMap onMarkerClick={handlePlaceClick} keyword={keyword}></KakaoMap>
-
       <Link to={"/thema"}>
         <ICON>
           <FontAwesomeIcon icon={faLayerGroup} />
@@ -136,12 +146,12 @@ const Home = () => {
         <Logo>
           <h1>ㅇㄷㄱ</h1>
         </Logo>
-        <SearchWrap onSubmit={handleSearch}>
+        <SearchWrap onSubmit={handleSearchSubmit}>
           <input
             placeholder="장소입력"
             type="text"
-            value={searchKeyword}
-            onChange={(e) => setSearchKeyword(e.target.value)}
+            value={localInput}
+            onChange={handleInputChange}
           />
           <SearchButton type="submit">
             <FontAwesomeIcon icon={faMagnifyingGlass} />
@@ -149,8 +159,43 @@ const Home = () => {
         </SearchWrap>
       </Container>
       <View selectedPlace={selectedPlace} />
+
+      <KakaoMap onMarkerClick={handlePlaceClick} keyword={keyword}></KakaoMap>
     </>
   );
 };
 
 export default Home;
+
+{
+  /* <>
+<Link to={"/thema"}>
+  <ICON>
+    <FontAwesomeIcon icon={faLayerGroup} />
+  </ICON>
+</Link>
+
+<Container>
+  <Logo>
+    <h1>ㅇㄷㄱ</h1>
+  </Logo>
+  <SearchWrap onSubmit={handleSearchSubmit}>
+    <input
+      placeholder="장소입력"
+      type="text"
+      value={localInput}
+      onChange={handleInputChange}
+    />
+    <SearchButton type="submit">
+      <FontAwesomeIcon icon={faMagnifyingGlass} />
+    </SearchButton>
+  </SearchWrap>
+</Container>
+<View selectedPlace={selectedPlace} />
+
+<KakaoMap
+  onMarkerClick={handlePlaceClick}
+  keyword={keyword}
+></KakaoMap>
+</> */
+}

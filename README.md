@@ -5,5 +5,3 @@
 - [x] npm i react-spinners
 - [x] font-awesome
 - [x] npm i react-hook-form
-- [] helmet-async
-- [] react icons

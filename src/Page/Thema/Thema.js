@@ -1,14 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { useText } from "../TextContext";
 
 const Container = styled.div`
   width: 100%;
   height: 100vh;
   padding: 73px 18px;
   /* flex-direction: column; */
-  display: flex;
+  /* display: flex;
   justify-content: start;
-  align-items: center;
+  align-items: center; */
 `;
 
 const Logo = styled.div`
@@ -31,45 +32,55 @@ const Logo = styled.div`
 `;
 
 const ThemaWrap = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-  align-items: center;
+  /* width: 400px; */
   width: 100%;
+  height: 250px;
+  margin: 0 auto;
+  /* display: flex; */
+  /* justify-content: space-between; */
+  /* flex-direction: column; */
+  /* align-items: center; */
+  /* width: 100%; */
 `;
 
-const ConWrap = styled.div`
-  min-width: 300px;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-  @media screen and (min-width: 768px) {
-    min-width: 500px;
-    width: 50%;
-  }
-`;
-
-const Con = styled.div`
-  min-width: 100px;
-  width: 49%;
-  height: 200px;
+const Button = styled.button`
+  width: 100px;
+  height: 100px;
   /* background-color: lightskyblue; */
   border-radius: 10px;
   text-align: center;
-  line-height: 200px;
-  font-size: 24px;
+  line-height: 100px;
+  font-size: 20px;
   font-weight: 900;
-  box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.7);
+  box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.3);
+  margin: 10px;
 
   @media screen and (min-width: 768px) {
-    height: 300px;
-    line-height: 300px;
+    width: 200px;
+    height: 200px;
+    line-height: 200px;
   }
 `;
 
 const Thema = () => {
+  const { setInputText } = useText();
+  const category = [
+    "카페",
+    "식당",
+    "호텔",
+    "공원",
+    "미술관",
+    "박물관",
+    "서울",
+    "부산",
+  ];
+  const navigate = useNavigate(); // 페이지 이동을 위한 navigate 함수 가져오기
+
+  const handleButtonClick = (category) => {
+    setInputText(category); // 텍스트 설정
+    navigate("/"); // Home 페이지로 이동
+  };
+
   return (
     <Container>
       <Logo>
@@ -79,20 +90,11 @@ const Thema = () => {
       </Logo>
 
       <ThemaWrap>
-        <ConWrap>
-          <Con>
-            <Link to={`/home?keyword=카페`}>카페</Link>
-          </Con>
-          <Con>식당</Con>
-        </ConWrap>
-        <ConWrap>
-          <Con>숙소</Con>
-          <Con>공원</Con>
-        </ConWrap>
-        <ConWrap>
-          <Con>전시관</Con>
-          <Con>관광지</Con>
-        </ConWrap>
+        {category.map((category, index) => (
+          <Button key={index} onClick={() => handleButtonClick(category)}>
+            {category}
+          </Button>
+        ))}
       </ThemaWrap>
     </Container>
   );

@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Loading from "../../components/Loading";
+import { useEffect, useState } from "react";
 
 const Container = styled.div`
   position: absolute;
@@ -103,9 +104,15 @@ const Con = styled.div`
 // `;
 
 const View = ({ selectedPlace }) => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, []);
+
   return (
     <div>
-      {selectedPlace ? (
+      {selectedPlace && !isLoading ? (
         <>
           <Container>
             {/* <h4>"00"에 대한 검색 결과</h4> */}

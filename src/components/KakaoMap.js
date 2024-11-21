@@ -2,8 +2,9 @@ import { Map, MapMarker, useMap } from "react-kakao-maps-sdk";
 import useGeolocation from "./useGeolocation";
 import { useEffect, useState } from "react";
 import { locationData } from "../api";
+import Loading from "./Loading";
 
-const DefaultKeyword = ["카페", "식당"];
+// const DefaultKeyword = ["카페", "식당"];
 
 const convertCoordinates = (coordinates) => {
   const [latRaw, lngRaw] = coordinates.split(", ");
@@ -89,7 +90,7 @@ const KakaoMap = ({ onMarkerClick, keyword }) => {
           position={value.coordinates}
           onClick={() => {
             if (onMarkerClick) {
-              console.log(value);
+              // console.log(value);
               onMarkerClick(value); // 클릭한 마커 정보를 전달
             }
           }}
