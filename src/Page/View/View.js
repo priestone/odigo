@@ -1,7 +1,5 @@
-import { faLayerGroup } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
+import Loading from "../../components/Loading";
 
 const Container = styled.div`
   position: absolute;
@@ -21,11 +19,11 @@ const Container = styled.div`
   /* align-items: center; */
   /* justify-content: center; */
 
-  h4 {
+  /* h4 {
     font-size: 18px;
     font-weight: 700;
     margin-bottom: 10px;
-  }
+  } */
 
   @media screen and (min-width: 768px) {
     width: 374px;
@@ -34,119 +32,103 @@ const Container = styled.div`
     box-shadow: none;
     border-radius: 0;
     padding: 3% 0%;
-    top: 150px;
+    top: 130px;
     left: 18px;
 
-    h4 {
+    /* h4 {
       display: none;
-    }
+    } */
   }
 `;
 
 const Con = styled.div`
-  margin-top: 30px;
+  /* margin-top: 30px; */
   h1 {
-    margin-top: 10px;
-    font-size: 20px;
+    margin-bottom: 30px;
+    font-size: 24px;
     font-weight: 900;
+    letter-spacing: 1px;
+  }
+  p {
+    font-size: 14px;
+    opacity: 0.7;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    /* margin-right: 10px; */
+  }
 
-    span {
-      font-size: 14px;
-      opacity: 0.7;
-      margin-left: 10px;
-    }
+  h4 {
+    font-size: 18px;
+    font-weight: 700;
+    /* font-size: 14px; */
+    /* opacity: 0.7; */
   }
 
   h2 {
-    margin-top: 10px;
+    margin-top: 30px;
     font-size: 18px;
   }
 `;
 
-const Con2 = styled.div`
-  margin-top: 30px;
-  display: none;
-  h1 {
-    margin-top: 10px;
-    font-size: 20px;
-    font-weight: 900;
+// const Con2 = styled.div`
+//   margin-top: 30px;
+//   display: none;
+//   h1 {
+//     margin-top: 10px;
+//     font-size: 20px;
+//     font-weight: 900;
 
-    span {
-      font-size: 14px;
-      opacity: 0.7;
-      margin-left: 10px;
-    }
-  }
+//     span {
+//       font-size: 14px;
+//       opacity: 0.7;
+//       margin-left: 10px;
+//     }
+//   }
 
-  h2 {
-    margin-top: 10px;
-    font-size: 18px;
-  }
-  @media screen and (min-width: 768px) {
-    display: block;
-  }
-`;
+//   h2 {
+//     margin-top: 10px;
+//     font-size: 18px;
+//   }
+//   @media screen and (min-width: 768px) {
+//     display: block;
+//   }
+// `;
 
-const Conimg = styled.div`
-  width: 100%;
-  height: 180px;
-  background-color: lightgreen;
-  margin: 0 auto;
-  border-radius: 10px;
-`;
+// const Conimg = styled.div`
+//   width: 100%;
+//   height: 180px;
+//   background-color: lightgreen;
+//   margin: 0 auto;
+//   border-radius: 10px;
+// `;
 
-const ICON = styled.div`
-  position: absolute;
-  bottom: 360px;
-  right: 18px;
-  width: 70px;
-  height: 70px;
-  background-color: #fff;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.25);
-
-  svg {
-    height: 28px;
-  }
-
-  @media screen and (min-width: 768px) {
-    bottom: -430px;
-    left: 430px;
-  }
-`;
-
-const View = ({ place }) => {
-  if (!place) return null;
-
+const View = ({ selectedPlace }) => {
   return (
-    <Container>
-      <Link to={"/thema"}>
-        <ICON>
-          <FontAwesomeIcon icon={faLayerGroup} />
-        </ICON>
-      </Link>
-      {console.log(place)}
-      <h4>"00"에 대한 검색 결과</h4>
-      <Con>
-        <Link to={"/detail"}>
-          <Conimg></Conimg>
-        </Link>
-        <h1>
-          {place.placeName} <span>{place.subDescription}</span>
-        </h1>
-        <h2>{place.mediaTitle}</h2>
-      </Con>
-      {/* <Con2>
-        <Conimg></Conimg>
-        <h1>
-          00카페 <span>카페</span>
-        </h1>
-        <h2>작품명 : "도깨비"</h2>
-      </Con2> */}
-    </Container>
+    <div>
+      {selectedPlace ? (
+        <>
+          <Container>
+            {/* <h4>"00"에 대한 검색 결과</h4> */}
+            <Con>
+              {/* <Link to={"/detail"}> 시간 관계상 디테일 페이지 디자인 및 이미지 구현불가로 추후 업데이트 예정*/}
+              {/* {console.log(selectedPlace)} */}
+              <h1>{selectedPlace.placeName} </h1>
+              <h4>영업시간</h4>
+              <p>{selectedPlace.subDescription}</p>
+              <h4>가게 번호</h4>
+              <p>{selectedPlace.tel}</p>
+              <h4>작품명</h4>
+              <p>{selectedPlace.mediaTitle}</p>
+              <h4>등장 상황</h4>
+              <p>{selectedPlace.description}</p>
+              {/* </Link> */}
+            </Con>
+          </Container>
+        </>
+      ) : (
+        <Loading></Loading>
+      )}
+    </div>
   );
 };
 

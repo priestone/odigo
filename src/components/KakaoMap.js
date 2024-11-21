@@ -3,7 +3,7 @@ import useGeolocation from "./useGeolocation";
 import { useEffect, useState } from "react";
 import { locationData } from "../api";
 
-const DefaultKeyword = ["부산", "서울"];
+const DefaultKeyword = ["카페", "식당"];
 
 const convertCoordinates = (coordinates) => {
   const [latRaw, lngRaw] = coordinates.split(", ");
@@ -18,11 +18,11 @@ const convertCoordinates = (coordinates) => {
   return { lat, lng };
 };
 
-const KakaoMap = ({ onPlaceClick }) => {
+const KakaoMap = ({ onMarkerClick, keyword }) => {
   const [mapcenter, setMapcenter] = useState({ lat: 37.5665, lng: 126.978 });
   const [placeData, setPlaceData] = useState([]);
-  // const Data = locationData("부산");
   const userCenter = useGeolocation();
+
   // console.log(userCenter.coordinates);
 
   useEffect(() => {
@@ -31,7 +31,8 @@ const KakaoMap = ({ onPlaceClick }) => {
         setMapcenter(userCenter.coordinates);
 
         const responses = await Promise.all(
-          DefaultKeyword.map((keyword) => locationData(keyword))
+          // DefaultKeyword.map((keyword) => locationData(keyword))
+          keyword.map((kw) => locationData(kw))
         );
 
         const allItems = responses.flatMap((res) => {
@@ -40,52 +41,32 @@ const KakaoMap = ({ onPlaceClick }) => {
         });
 
         setPlaceData(allItems);
-        // console.log(placeData[0].coordinates);
       } catch (error) {
         console.log(error);
       }
     })();
-  }, [userCenter]);
+  }, [userCenter, keyword]);
 
-  // 이제 좌표값 이쁘게 바꾸기!!
   const updatedPlaceData = placeData.map((position) => ({
     ...position,
     coordinates: convertCoordinates(position.coordinates),
   }));
 
-  // console.log(updatedPlaceData);
-
-  const EventMarkerContainer = ({ position }) => {
+  const EventMarkerContainer = ({ position, onClick }) => {
     const map = useMap();
 
     return (
       <MapMarker
         position={position} // 마커를 표시할 위치
         // @ts-ignore
-        onClick={(marker) => map.panTo(marker.getPosition())}
+        onClick={(marker) => {
+          map.panTo(marker.getPosition());
+          if (onClick) {
+            onClick(marker);
+          }
+        }}
       ></MapMarker>
     );
-  };
-
-  // const EventMarkerContainer = ({ position, place }) => {
-  //   const map = useMap();
-
-  //   return (
-  //     <MapMarker
-  //       position={position}
-  //       onClick={() => {
-  //         console.log("Marker position clicked:", position); // 로그 추가
-  //         console.log("Place data:", place); // place 데이터 확인
-  //         map.panTo(position);
-  //         handleMarkerClick(place); // 클릭 이벤트 실행
-  //       }}
-  //     />
-  //   );
-  // };
-
-  const handleMarkerClick = (place) => {
-    console.log("Marker clicked:", place);
-    onPlaceClick(place); // 클릭된 정보를 부모에게 전달
   };
 
   return (
@@ -106,9 +87,13 @@ const KakaoMap = ({ onPlaceClick }) => {
         <EventMarkerContainer
           key={`EventMarkerContainer-${value.coordinates.lat}-${value.coordinates.lng}-${index}`}
           position={value.coordinates}
-          place={value}
-          onClick={() => handleMarkerClick(value)}
-        />
+          onClick={() => {
+            if (onMarkerClick) {
+              console.log(value);
+              onMarkerClick(value); // 클릭한 마커 정보를 전달
+            }
+          }}
+        ></EventMarkerContainer>
       ))}
     </Map>
   );

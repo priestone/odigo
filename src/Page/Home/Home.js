@@ -1,9 +1,13 @@
 import styled from "styled-components";
 import KakaoMap from "../../components/KakaoMap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import {
+  faLayerGroup,
+  faMagnifyingGlass,
+} from "@fortawesome/free-solid-svg-icons";
 import View from "../View/View";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   width: 100%;
@@ -65,30 +69,75 @@ const SearchButton = styled.button`
   transform: translateY(-50%);
 `;
 
+const ICON = styled.div`
+  position: absolute;
+  z-index: 1;
+  top: 140px;
+  right: 20px;
+  width: 70px;
+  height: 70px;
+  background-color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.25);
+
+  svg {
+    height: 28px;
+  }
+
+  @media screen and (min-width: 768px) {
+    top: unset;
+    bottom: 30px;
+    left: 430px;
+  }
+`;
+
 const Home = () => {
   const [selectedPlace, setSelectedPlace] = useState(null);
+  const [searchKeyword, setSearchKeyword] = useState(""); // 검색어 상태
+  const [keyword, setKeyword] = useState(["카페", "식당"]); // 초기 디폴트 키워드 설정
 
   const handlePlaceClick = (place) => {
-    console.log("Place clicked:", place); // 로그로 데이터 확인
+    // console.log("Place clicked:", place); // 로그로 데이터 확인
     setSelectedPlace(place);
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault(); // 폼 제출 방지
+    if (searchKeyword.trim() !== "") {
+      setKeyword([searchKeyword]); // 검색어로 키워드 업데이트
+    }
   };
 
   return (
     <>
-      <KakaoMap onPlaceClick={handlePlaceClick}></KakaoMap>
+      <KakaoMap onMarkerClick={handlePlaceClick} keyword={keyword}></KakaoMap>
+
+      <Link to={"/thema"}>
+        <ICON>
+          <FontAwesomeIcon icon={faLayerGroup} />
+        </ICON>
+      </Link>
 
       <Container>
         <Logo>
           <h1>ㅇㄷㄱ</h1>
         </Logo>
-        <SearchWrap>
-          <input placeholder="장소입력" type="text" />
-          <SearchButton>
+        <SearchWrap onSubmit={handleSearch}>
+          <input
+            placeholder="장소입력"
+            type="text"
+            value={searchKeyword}
+            onChange={(e) => setSearchKeyword(e.target.value)}
+          />
+          <SearchButton type="submit">
             <FontAwesomeIcon icon={faMagnifyingGlass} />
           </SearchButton>
         </SearchWrap>
       </Container>
-      {selectedPlace && <View place={selectedPlace} />}
+      <View selectedPlace={selectedPlace} />
     </>
   );
 };
