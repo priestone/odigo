@@ -1,0 +1,10 @@
+{
+  "files": {
+    "main.js": "/odigo/static/js/main.79cd1bdb.js",
+    "index.html": "/odigo/index.html",
+    "main.79cd1bdb.js.map": "/odigo/static/js/main.79cd1bdb.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.79cd1bdb.js"
+  ]
+}
