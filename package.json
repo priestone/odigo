@@ -25,8 +25,11 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
+  "homepage": "https://priestone.github.io/odigo/#/",
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -45,5 +48,8 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://api.kcisa.kr"
+  "proxy": "http://api.kcisa.kr",
+  "devDependencies": {
+    "gh-pages": "^6.2.0"
+  }
 }

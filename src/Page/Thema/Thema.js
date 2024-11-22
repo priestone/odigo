@@ -1,6 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { useText } from "../TextContext";
 
 const Container = styled.div`
   width: 100%;
@@ -63,7 +62,8 @@ const Button = styled.button`
 `;
 
 const Thema = () => {
-  const { setInputText } = useText();
+  // const { setInputText } = useText();
+  // const [keyword, setKeyword] =useState();
   const category = [
     "카페",
     "식당",
@@ -77,8 +77,9 @@ const Thema = () => {
   const navigate = useNavigate(); // 페이지 이동을 위한 navigate 함수 가져오기
 
   const handleButtonClick = (category) => {
-    setInputText(category); // 텍스트 설정
-    navigate("/"); // Home 페이지로 이동
+    // console.log("Selected category:", category); // 디버깅 로그
+    // setInputText(category); // 텍스트 설정
+    navigate("/", { state: { keyword: category } }); // Home 페이지로 이동
   };
 
   return (

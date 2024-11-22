@@ -2,7 +2,6 @@ import { Map, MapMarker, useMap } from "react-kakao-maps-sdk";
 import useGeolocation from "./useGeolocation";
 import { useEffect, useState } from "react";
 import { locationData } from "../api";
-import Loading from "./Loading";
 
 // const DefaultKeyword = ["카페", "식당"];
 
@@ -23,8 +22,6 @@ const KakaoMap = ({ onMarkerClick, keyword }) => {
   const [mapcenter, setMapcenter] = useState({ lat: 37.5665, lng: 126.978 });
   const [placeData, setPlaceData] = useState([]);
   const userCenter = useGeolocation();
-
-  // console.log(userCenter.coordinates);
 
   useEffect(() => {
     (async () => {

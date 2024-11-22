@@ -1,7 +1,6 @@
-- [x] npm i react-router-dom
-- [x] npm i node-fetch
-- [x] npm i styled-components
-- [x] npm i styled-reset
-- [x] npm i react-spinners
-- [x] font-awesome
-- [x] npm i react-hook-form
+# 사이트명 : 오디고(Odigo)
+
+# 목적성
+
+- OTT 내 촬영지를 지도를 통해 알려주는 앱
+- 사용자에게 소소한 데이트 및 놀만한 장소를 추천해준다
