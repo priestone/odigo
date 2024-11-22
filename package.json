@@ -48,7 +48,7 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://api.kcisa.kr",
+  "proxy": "https://api.kcisa.kr",
   "devDependencies": {
     "gh-pages": "^6.2.0"
   }
