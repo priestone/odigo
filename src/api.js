@@ -9,11 +9,11 @@ const options = {
   },
 };
 
-export const locationData = (keyword) => {
-  // 한글, 공백, 특수문자 인코딩
-  const encodedKeyword = encodeURIComponent(keyword);
+const proxyBaseURL = "https://odigoserver.onrender.com/api";
 
-  return fetch(`${baseURL}${encodedKeyword}`, options).then((res) =>
-    res.json()
+export const locationData = (keyword) => {
+  const encodedKeyword = encodeURIComponent(keyword);
+  return fetch(`${proxyBaseURL}?keyword=${encodedKeyword}`, options).then(
+    (res) => res.json()
   );
 };
