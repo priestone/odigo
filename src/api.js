@@ -11,9 +11,12 @@ const options = {
 
 const proxyBaseURL = "https://odigoserver.onrender.com/api";
 
-export const locationData = (keyword) => {
-  const encodedKeyword = encodeURIComponent(keyword);
-  return fetch(`${proxyBaseURL}?keyword=${encodedKeyword}`, options).then(
-    (res) => res.json()
-  );
-};
+// export const locationData = (keyword) => {
+//   const encodedKeyword = encodeURIComponent(keyword);
+//   return fetch(`${proxyBaseURL}?keyword=${encodedKeyword}`, options).then(
+//     (res) => res.json()
+//   );
+// };
+
+export const locationData = (keyword) =>
+  fetch(`${baseURL}${keyword}`, options).then((res) => res.json());

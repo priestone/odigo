@@ -43,6 +43,7 @@ const ThemaWrap = styled.div`
 `;
 
 const Button = styled.button`
+  all: unset;
   width: 100px;
   height: 100px;
   /* background-color: lightskyblue; */
@@ -50,8 +51,9 @@ const Button = styled.button`
   text-align: center;
   line-height: 100px;
   font-size: 20px;
-  font-weight: 900;
-  box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.3);
+  font-weight: 600;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  /* box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.3); */
   margin: 10px;
 
   @media screen and (min-width: 768px) {
